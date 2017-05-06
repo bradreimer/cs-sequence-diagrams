@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UmlDiagrams", "UmlDiagrams\UmlDiagrams.csproj", "{856CF110-787A-4E7F-B15E-F5451EAC4992}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequenceViz", "SequenceViz\SequenceViz.csproj", "{F2215F51-729C-46AB-BF66-581F5705F8CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UmlDiagramsTest", "UmlDiagramsTest\UmlDiagramsTest.csproj", "{E37ED0F6-271B-456F-B55B-9AE3DA3301EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{856CF110-787A-4E7F-B15E-F5451EAC4992}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{856CF110-787A-4E7F-B15E-F5451EAC4992}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{856CF110-787A-4E7F-B15E-F5451EAC4992}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2215F51-729C-46AB-BF66-581F5705F8CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2215F51-729C-46AB-BF66-581F5705F8CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2215F51-729C-46AB-BF66-581F5705F8CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2215F51-729C-46AB-BF66-581F5705F8CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E37ED0F6-271B-456F-B55B-9AE3DA3301EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E37ED0F6-271B-456F-B55B-9AE3DA3301EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E37ED0F6-271B-456F-B55B-9AE3DA3301EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E37ED0F6-271B-456F-B55B-9AE3DA3301EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

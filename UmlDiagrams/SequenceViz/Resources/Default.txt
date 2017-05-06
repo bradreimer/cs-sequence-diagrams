@@ -1,0 +1,17 @@
+Title: Here is a title
+participant Actor as A
+A->B: Normal line
+B-->C: Dashed line
+C->>D: Open arrow
+D-->>A: Dashed open arrow
+D->D: Self Reference
+C->C: Self Reference
+C-->>C: Self Reference
+B->A: Normal line
+C-->B: Dashed line
+D->>C: Open arrow
+A-->>D: Dashed open arrow
+Note left of A: Note to the\nleft of A
+Note right of A: Note to the\nright of A
+Note over A: Note over A
+Note over A,B: Note over both A and B
