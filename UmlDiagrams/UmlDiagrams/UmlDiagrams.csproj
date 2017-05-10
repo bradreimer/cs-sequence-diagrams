@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\StringToSequenceDiagramConverter.cs" />
-    <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Drawing\DefaultDrawingCanvas.cs" />
     <Compile Include="Drawing\HandDrawnCanvas.cs" />
     <Compile Include="Drawing\IDrawingCanvas.cs" />
@@ -75,7 +74,6 @@
     <Compile Include="Sequence\SequenceDiagram.xaml.cs">
       <DependentUpon>SequenceDiagram.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Sequence\SequenceDiagramCanvas.cs" />
     <Compile Include="Sequence\SequenceDiagramGrammarValidationRule.cs" />
     <Compile Include="Sequence\SequenceDiagramViewModel.cs" />
     <Compile Include="Sequence\SequenceLineType.cs" />

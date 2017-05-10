@@ -6,24 +6,11 @@
 		xmlns:uml="clr-namespace:UmlDiagrams;assembly=UmlDiagrams"
 		xmlns:local="clr-namespace:SequenceViz"
 		mc:Ignorable="d"
-		FocusManager.FocusedElement="{Binding ElementName=inputTextBox}"
-		Title="Sequence Visualizer">
-	<Window.CommandBindings>
-		<CommandBinding Command="{x:Static ApplicationCommands.New}"
-						Executed="New_Executed"/>
-		<CommandBinding Command="{x:Static ApplicationCommands.Save}"
-						Executed="Save_Executed"/>
-		<CommandBinding Command="{x:Static ApplicationCommands.SaveAs}"
-						Executed="SaveAs_Executed"/>
-		<CommandBinding Command="{x:Static ApplicationCommands.Copy}"
-						Executed="CopyToClipboard_Executed"/>
-		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.OfficeDark}"
-						Executed="SetStyleOfficeDark_Execute"/>
-		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.OfficeLight}"
-						Executed="SetStyleOfficeLight_Execute"/>
-	</Window.CommandBindings>
+		FocusManager.FocusedElement="{Binding ElementName=m_inputTextBox}">
 	<Window.Resources>
 		<uml:StringToSequenceDiagramConverter x:Key="StringToSequenceDiagramConverter"/>
+		<local:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+		<local:TitleConverter x:Key="TitleConverter" />
 		<LinearGradientBrush x:Key="OfficeBlue" EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
 			<GradientStop Color="#FF71A6DB"/>
 			<GradientStop Color="#FF559BDB" Offset="0.5"/>
@@ -50,6 +37,23 @@
 			<GradientStop Color="#FFA5A5A5" Offset="0.5"/>
 		</LinearGradientBrush>
 	</Window.Resources>
+	<Window.CommandBindings>
+		<CommandBinding Command="{x:Static ApplicationCommands.New}"
+						Executed="New_Executed"/>
+		<CommandBinding Command="{x:Static ApplicationCommands.Save}"
+						Executed="Save_Executed"/>
+		<CommandBinding Command="{x:Static ApplicationCommands.SaveAs}"
+						Executed="SaveAs_Executed"/>
+		<CommandBinding Command="{x:Static ApplicationCommands.Copy}"
+						Executed="CopyToClipboard_Executed"/>
+		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.OfficeDark}"
+						Executed="SetStyleOfficeDark_Execute"/>
+		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.OfficeLight}"
+						Executed="SetStyleOfficeLight_Execute"/>
+	</Window.CommandBindings>
+	<Window.Title>
+		<Binding Converter="{StaticResource TitleConverter}" Path="ViewModel.Title" ElementName="m_sequenceDiagram"/>
+	</Window.Title>
 	<DockPanel LastChildFill="True">
 		<ToolBarTray DockPanel.Dock="Top">
 			<ToolBar>
@@ -120,22 +124,35 @@
 						  ShowsPreview="True"
 						  Width="5"/>
 			<ScrollViewer Grid.Column="2"
-						  CanContentScroll="True">
-				<uml:SequenceDiagram x:Name="m_sequenceDiagram"
-									 Foreground="#FFA8A8A8"
-									 Background="#FF272822"
-									 FontFamily="Calibri"
-									 FontSize="16"
-									 ActorBackground="{StaticResource OfficeOrange}"
-									 NoteBackground="{StaticResource OfficeBlue}"
-									 SignalForeground="White">
-					<uml:SequenceDiagram.DataContext>
-						<Binding Path="SequenceText"
-								 Converter="{StaticResource StringToSequenceDiagramConverter}"
-								 Mode="OneWay">
-						</Binding>
-					</uml:SequenceDiagram.DataContext>
-				</uml:SequenceDiagram>
+						  CanContentScroll="True"
+						  Foreground="#FFA8A8A8"
+						  Background="#FF272822"
+						  FontFamily="Calibri"
+						  FontSize="16">
+				<ScrollViewer.DataContext>
+					<Binding Path="SequenceText"
+							 Converter="{StaticResource StringToSequenceDiagramConverter}"
+							 Mode="OneWay">
+					</Binding>
+				</ScrollViewer.DataContext>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="*"/>
+					</Grid.RowDefinitions>
+					<TextBlock Grid.Row="0"
+							   Margin="10" Padding="5"
+							   Text="{Binding Title}"
+							   Visibility="{Binding Title, Converter={StaticResource StringToVisibilityConverter}}"/>
+					<uml:SequenceDiagram x:Name="m_sequenceDiagram"
+										 Grid.Row="1"
+										 ViewModel="{Binding}"
+										 ActorBackground="{StaticResource OfficeOrange}"
+										 ActorForeground="{StaticResource OfficeBlack}"
+										 NoteBackground="{StaticResource OfficeBlue}"
+										 NoteForeground="{StaticResource OfficeBlack}"
+										 SignalForeground="White"/>
+				</Grid>
 			</ScrollViewer>
 		</Grid>
 	</DockPanel>

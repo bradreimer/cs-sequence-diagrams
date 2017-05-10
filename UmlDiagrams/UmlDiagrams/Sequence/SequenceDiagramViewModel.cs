@@ -5,7 +5,7 @@ using System.Linq;
 namespace UmlDiagrams
 {
 	/// <summary>
-	/// Describes a sequence diagram that can be draw using a <see cref="SequenceDiagramCanvas"/> control.
+	/// Describes a sequence diagram that can be draw using a <see cref="SequenceDiagram"/> control.
 	/// </summary>
 	public sealed class SequenceDiagramViewModel
 	{

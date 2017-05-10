@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows;
 using System.Windows.Data;
 
-namespace UmlDiagrams
+namespace SequenceViz
 {
-	[ValueConversion(typeof(string), typeof(Visibility))]
-	class StringToVisibilityConverter : IValueConverter
+	class TitleConverter : IValueConverter
 	{
+		private const string ApplicationTitle = "Sequence Visualizer";
+
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return string.IsNullOrEmpty((string)value) ? Visibility.Collapsed : Visibility.Visible;
+			string title = (string)value;
+			return string.IsNullOrWhiteSpace(title) ? ApplicationTitle : $"{ApplicationTitle} - {title}";
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

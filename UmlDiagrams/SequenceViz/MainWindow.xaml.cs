@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -48,14 +49,22 @@ namespace SequenceViz
 
 		private void CopyToClipboard_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			// Render sequence diagram to an image
-			//int width = (int)Math.Ceiling(m_sequenceDiagram.DesiredSize.Width);
-			//int height = (int)Math.Ceiling(m_sequenceDiagram.DesiredSize.Height);
-			int width = (int)Math.Ceiling(m_sequenceDiagram.ActualWidth);
-			int height = (int)Math.Ceiling(m_sequenceDiagram.ActualHeight);
+			// Prepare a render target using the render size of our sequence
+			int width = (int)Math.Ceiling(m_sequenceDiagram.RenderSize.Width);
+			int height = (int)Math.Ceiling(m_sequenceDiagram.RenderSize.Height);
 			double dpi = 96;
+
 			var rtb = new RenderTargetBitmap(width, height, dpi, dpi, PixelFormats.Pbgra32);
-			rtb.Render(m_sequenceDiagram);
+
+			// Draw the sequence diagram onto our render target
+			var brush = new VisualBrush(m_sequenceDiagram);
+			var visual = new DrawingVisual();
+
+			var drawingContext = visual.RenderOpen();
+			drawingContext.DrawRectangle(brush, null, new Rect(new Point(0, 0), new Point(width, height)));
+			drawingContext.Close();
+
+			rtb.Render(visual);
 
 			// Copy to clipboard
 			Clipboard.SetImage(rtb);
