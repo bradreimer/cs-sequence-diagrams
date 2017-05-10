@@ -4,28 +4,99 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:uml="clr-namespace:UmlDiagrams;assembly=UmlDiagrams"
+		xmlns:local="clr-namespace:SequenceViz"
 		mc:Ignorable="d"
 		FocusManager.FocusedElement="{Binding ElementName=inputTextBox}"
-		Title="SequenceViz" Background="WhiteSmoke">
+		Title="Sequence Visualizer">
+	<Window.CommandBindings>
+		<CommandBinding Command="{x:Static ApplicationCommands.New}"
+						Executed="New_Executed"/>
+		<CommandBinding Command="{x:Static ApplicationCommands.Save}"
+						Executed="Save_Executed"/>
+		<CommandBinding Command="{x:Static ApplicationCommands.SaveAs}"
+						Executed="SaveAs_Executed"/>
+		<CommandBinding Command="{x:Static ApplicationCommands.Copy}"
+						Executed="CopyToClipboard_Executed"/>
+		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.OfficeDark}"
+						Executed="SetStyleOfficeDark_Execute"/>
+		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.OfficeLight}"
+						Executed="SetStyleOfficeLight_Execute"/>
+	</Window.CommandBindings>
 	<Window.Resources>
 		<uml:StringToSequenceDiagramConverter x:Key="StringToSequenceDiagramConverter"/>
+		<LinearGradientBrush x:Key="OfficeBlue" EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+			<GradientStop Color="#FF71A6DB"/>
+			<GradientStop Color="#FF559BDB" Offset="0.5"/>
+			<GradientStop Color="#FF438AC9" Offset="1"/>
+		</LinearGradientBrush>
+		<LinearGradientBrush x:Key="OfficeOrange" EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+			<GradientStop Color="#FFF18C55"/>
+			<GradientStop Color="#FFF67B28" Offset="0.5"/>
+			<GradientStop Color="#FFE56B17" Offset="1"/>
+		</LinearGradientBrush>
+		<LinearGradientBrush x:Key="OfficeGreen" EndPoint="0.5,1" StartPoint="0.5,0">
+			<GradientStop Color="#FF81B861" Offset="0"/>
+			<GradientStop Color="#FF61A235" Offset="1"/>
+			<GradientStop Color="#FF6FB242" Offset="0.5"/>
+		</LinearGradientBrush>
+		<LinearGradientBrush x:Key="OfficeBlack" EndPoint="0.5,1" StartPoint="0.5,0">
+			<GradientStop Color="#FF454545" Offset="0"/>
+			<GradientStop Color="Black" Offset="1"/>
+			<GradientStop Color="Black" Offset="0.5"/>
+		</LinearGradientBrush>
+		<LinearGradientBrush x:Key="OfficeGray" EndPoint="0.5,1" StartPoint="0.5,0">
+			<GradientStop Color="#FFAFAFAF" Offset="0"/>
+			<GradientStop Color="#FF929292" Offset="1"/>
+			<GradientStop Color="#FFA5A5A5" Offset="0.5"/>
+		</LinearGradientBrush>
 	</Window.Resources>
-	<Grid Background="#FF272822">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*"/>
-			<ColumnDefinition Width="Auto"/>
-			<ColumnDefinition Width="2*"/>
-		</Grid.ColumnDefinitions>
-		<Grid Grid.Column="0" Margin="10 30 10 10">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="*"/>
-				<RowDefinition Height="Auto"/>
-			</Grid.RowDefinitions>
+	<DockPanel LastChildFill="True">
+		<ToolBarTray DockPanel.Dock="Top">
+			<ToolBar>
+				<Button ToolTipService.ToolTip="New Sequence Diagram"
+						Command="{x:Static ApplicationCommands.New}">
+					<Image Source="Images/NewFile.png" Width="24"/>
+				</Button>
+				<Button ToolTipService.ToolTip="Save"
+						Command="{x:Static ApplicationCommands.Save}">
+					<Image Source="Images/Save.png" Width="24"/>
+				</Button>
+				<Button ToolTipService.ToolTip="Save As"
+						Command="{x:Static ApplicationCommands.SaveAs}">
+					<Image Source="Images/SaveAs.png" Width="24"/>
+				</Button>
+				<Separator/>
+				<Button ToolTipService.ToolTip="Copy To Clipboard"
+						Command="{x:Static ApplicationCommands.Copy}">
+					<Image Source="Images/CopyToClipboard.png" Width="24"/>
+				</Button>
+				<ToggleButton ToolTipService.ToolTip="Toggle Drawing Style"
+							  IsChecked="{Binding IsHandDrawnStyle, ElementName=m_sequenceDiagram}">
+					<Image Source="Images/DrawingStyle.png" Width="24"/>
+				</ToggleButton>
+			</ToolBar>
+			<ToolBar>
+				<Button ToolTipService.ToolTip="Office Dark Style"
+						Command="{x:Static local:SequenceDiagramStylesCommands.OfficeDark}">
+					<Image Source="Images/StyleOfficeDark.png" Width="24"/>
+				</Button>
+				<Button ToolTipService.ToolTip="Office Light Style"
+						Command="{x:Static local:SequenceDiagramStylesCommands.OfficeLight}">
+					<Image Source="Images/StyleOfficeLight.png" Width="24"/>
+				</Button>
+			</ToolBar>
+		</ToolBarTray>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="2*"/>
+			</Grid.ColumnDefinitions>
 			<TextBox x:Name="m_inputTextBox"
-					 Grid.Row="0"
-					 AcceptsReturn="True"
-					 AcceptsTab="True"
-					 DockPanel.Dock="Top">
+					Grid.Column="0"
+					Margin="10"
+					AcceptsReturn="True"
+					AcceptsTab="True">
 				<TextBox.Text>
 					<Binding Path="SequenceText" UpdateSourceTrigger="PropertyChanged">
 						<Binding.ValidationRules>
@@ -35,56 +106,37 @@
 				</TextBox.Text>
 				<Validation.ErrorTemplate>
 					<ControlTemplate>
-						<StackPanel Margin="13">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
-							</StackPanel>
-							<AdornedElementPlaceholder/>
-						</StackPanel>
+						<DockPanel LastChildFill="True">
+							<Border BorderBrush="Red" BorderThickness="2" Padding="5">
+								<AdornedElementPlaceholder/>
+							</Border>
+						</DockPanel>
 					</ControlTemplate>
 				</Validation.ErrorTemplate>
 			</TextBox>
-			<StackPanel Grid.Row="1"
-						Orientation="Horizontal"
-						HorizontalAlignment="Right">
-				<Button Margin="10" Padding="5"
-						Content="Copy To Clipboard"
-						Click="CopyToClipboardExecuted"/>
-			</StackPanel>
+			<GridSplitter Grid.Column="1"
+						  HorizontalAlignment="Center"
+						  VerticalAlignment="Stretch"
+						  ShowsPreview="True"
+						  Width="5"/>
+			<ScrollViewer Grid.Column="2"
+						  CanContentScroll="True">
+				<uml:SequenceDiagram x:Name="m_sequenceDiagram"
+									 Foreground="#FFA8A8A8"
+									 Background="#FF272822"
+									 FontFamily="Calibri"
+									 FontSize="16"
+									 ActorBackground="{StaticResource OfficeOrange}"
+									 NoteBackground="{StaticResource OfficeBlue}"
+									 SignalForeground="White">
+					<uml:SequenceDiagram.DataContext>
+						<Binding Path="SequenceText"
+								 Converter="{StaticResource StringToSequenceDiagramConverter}"
+								 Mode="OneWay">
+						</Binding>
+					</uml:SequenceDiagram.DataContext>
+				</uml:SequenceDiagram>
+			</ScrollViewer>
 		</Grid>
-		<GridSplitter Grid.Column="1"
-					  HorizontalAlignment="Center"
-					  VerticalAlignment="Stretch"
-					  ShowsPreview="True"
-					  Width="5"/>
-		<ScrollViewer Grid.Column="2"
-					  CanContentScroll="True">
-			<uml:SequenceDiagram x:Name="m_sequenceDiagram"
-								 Foreground="#FFA8A8A8" Background="Transparent"
-								 ActorForeground="White" SignalForeground="White" NoteForeground="White"
-								 FontFamily="Calibri"
-								 FontSize="16">
-				<uml:SequenceDiagram.NoteBackground>
-					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-						<GradientStop Color="#FF71A6DB" Offset="0"/>
-						<GradientStop Color="#FF438AC9" Offset="1"/>
-						<GradientStop Color="#FF559BDB" Offset="0.5"/>
-					</LinearGradientBrush>
-				</uml:SequenceDiagram.NoteBackground>
-				<uml:SequenceDiagram.ActorBackground>
-					<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-						<GradientStop Color="#FFF18C55"/>
-						<GradientStop Color="#FFF67B28" Offset="0.5"/>
-						<GradientStop Color="#FFE56B17" Offset="1"/>
-					</LinearGradientBrush>
-				</uml:SequenceDiagram.ActorBackground>
-				<uml:SequenceDiagram.DataContext>
-					<Binding Path="SequenceText"
-						 Converter="{StaticResource StringToSequenceDiagramConverter}"
-						 Mode="OneWay">
-					</Binding>
-				</uml:SequenceDiagram.DataContext>
-			</uml:SequenceDiagram>
-		</ScrollViewer>
-	</Grid>
+	</DockPanel>
 </Window>

@@ -17,10 +17,10 @@ namespace UmlDiagrams
 		/// <summary>
 		/// Gets or sets the style to use when drawing the sequence diagram.
 		/// </summary>
-		public SequenceDrawingStyle DrawingStyle
+		public bool IsHandDrawnStyle
 		{
-			get { return (SequenceDrawingStyle)GetValue(DrawingStyleProperty); }
-			set { SetValue(DrawingStyleProperty, value); }
+			get { return (bool)GetValue(IsHandDrawnStyleProperty); }
+			set { SetValue(IsHandDrawnStyleProperty, value); }
 		}
 
 		/// <summary>
@@ -68,9 +68,9 @@ namespace UmlDiagrams
 			set { SetValue(NoteBackgroundProperty, value); }
 		}
 
-		public static readonly DependencyProperty DrawingStyleProperty =
-			DependencyProperty.Register(nameof(DrawingStyle), typeof(SequenceDrawingStyle), typeof(SequenceDiagram),
-				new FrameworkPropertyMetadata(SequenceDrawingStyle.Default,
+		public static readonly DependencyProperty IsHandDrawnStyleProperty =
+			DependencyProperty.Register(nameof(IsHandDrawnStyle), typeof(bool), typeof(SequenceDiagram),
+				new FrameworkPropertyMetadata(false,
 					FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public static readonly DependencyProperty ActorForegroundProperty =

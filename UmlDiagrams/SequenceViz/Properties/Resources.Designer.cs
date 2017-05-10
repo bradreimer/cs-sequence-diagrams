@@ -79,9 +79,9 @@ namespace SequenceViz.Properties {
         ///Note over A: Note over A
         ///Note over A,B: Note over both A and B.
         /// </summary>
-        internal static string Default {
+        internal static string DefaultSequenceText {
             get {
-                return ResourceManager.GetString("Default", resourceCulture);
+                return ResourceManager.GetString("DefaultSequenceText", resourceCulture);
             }
         }
     }

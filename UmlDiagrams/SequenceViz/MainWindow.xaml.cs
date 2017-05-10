@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Drawing;
-using System.IO;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -15,10 +14,39 @@ namespace SequenceViz
 		public MainWindow()
 		{
 			InitializeComponent();
-			DataContext = new MainWindowViewModel();
 		}
 
-		private void CopyToClipboardExecuted(object sender, RoutedEventArgs e)
+		private void SetStyleOfficeDark_Execute(object sender,ExecutedRoutedEventArgs e)
+		{
+			// Extract brush resources
+			var officeOrange = (Brush)Resources["OfficeOrange"];
+			var officeBlue = (Brush)Resources["OfficeBlue"];
+			var officeGreen = (Brush)Resources["OfficeGreen"];
+			var officeGray = (Brush)Resources["OfficeGray"];
+			var officeBlack = (Brush)Resources["OfficeBlack"];
+		}
+
+		private void SetStyleOfficeLight_Execute(object sender, ExecutedRoutedEventArgs e)
+		{
+
+		}
+
+		private void New_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+
+		}
+
+		private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+
+		}
+
+		private void SaveAs_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+
+		}
+
+		private void CopyToClipboard_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			// Render sequence diagram to an image
 			//int width = (int)Math.Ceiling(m_sequenceDiagram.DesiredSize.Width);

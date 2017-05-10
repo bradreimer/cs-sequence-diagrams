@@ -91,9 +91,9 @@ namespace UmlDiagrams
 					FrameworkPropertyMetadataOptions.AffectsRender |
 					FrameworkPropertyMetadataOptions.AffectsMeasure));
 
-		public static readonly DependencyProperty DrawingStyleProperty =
-			DependencyProperty.Register(nameof(DrawingStyle), typeof(SequenceDrawingStyle), typeof(SequenceDiagramCanvas),
-				new FrameworkPropertyMetadata(SequenceDrawingStyle.Default,
+		public static readonly DependencyProperty IsHandDrawnStyleProperty =
+			DependencyProperty.Register(nameof(IsHandDrawnStyle), typeof(bool), typeof(SequenceDiagramCanvas),
+				new FrameworkPropertyMetadata(false,
 					FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public static readonly DependencyProperty ActorForegroundProperty =
@@ -133,10 +133,10 @@ namespace UmlDiagrams
 		/// <summary>
 		/// Gets or sets the style to use when drawing the sequence diagram.
 		/// </summary>
-		public SequenceDrawingStyle DrawingStyle
+		public bool IsHandDrawnStyle
 		{
-			get { return (SequenceDrawingStyle)GetValue(DrawingStyleProperty); }
-			set { SetValue(DrawingStyleProperty, value); }
+			get { return (bool)GetValue(IsHandDrawnStyleProperty); }
+			set { SetValue(IsHandDrawnStyleProperty, value); }
 		}
 
 		public Brush ActorForeground
@@ -374,15 +374,10 @@ namespace UmlDiagrams
 
 		private IDrawingCanvas CreateDrawingCanvas(DrawingContext drawingContext)
 		{
-			switch (DrawingStyle)
-			{
-				case SequenceDrawingStyle.Default:
-					return new DefaultDrawingCanvas(drawingContext, Foreground);
-				case SequenceDrawingStyle.HandDrawn:
-					return new HandDrawnCanvas(drawingContext, Foreground);
-				default:
-					throw new NotSupportedException();
-			}
+			if (IsHandDrawnStyle)
+				return new HandDrawnCanvas(drawingContext, Foreground);
+			else
+				return new DefaultDrawingCanvas(drawingContext, Foreground);
 		}
 
 		private void DrawActors(IDrawingCanvas drawingCanvas)

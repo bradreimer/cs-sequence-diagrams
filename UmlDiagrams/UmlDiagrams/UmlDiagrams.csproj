@@ -78,7 +78,6 @@
     <Compile Include="Sequence\SequenceDiagramCanvas.cs" />
     <Compile Include="Sequence\SequenceDiagramGrammarValidationRule.cs" />
     <Compile Include="Sequence\SequenceDiagramViewModel.cs" />
-    <Compile Include="Sequence\SequenceDrawingStyle.cs" />
     <Compile Include="Sequence\SequenceLineType.cs" />
     <Compile Include="Sequence\SignalViewModel.cs" />
     <Compile Include="Sequence\StringErrorListener.cs" />

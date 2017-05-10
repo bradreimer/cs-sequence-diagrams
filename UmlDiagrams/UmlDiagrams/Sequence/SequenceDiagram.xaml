@@ -5,6 +5,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uml="clr-namespace:UmlDiagrams"
 	x:Class="UmlDiagrams.SequenceDiagram"
+	x:Name="m_rootSequenceDiagram"
 	mc:Ignorable="d"
 	d:DesignHeight="300" d:DesignWidth="300">
 	<UserControl.Resources>
@@ -21,8 +22,9 @@
 				   Visibility="{Binding Title, Converter={StaticResource StringToVisibilityConverter}}"/>
 		<uml:SequenceDiagramCanvas x:Name="m_sequenceDiagram"
 								   Grid.Row="1"
-								   DrawingStyle="{Binding Path=DrawingStyle, RelativeSource={RelativeSource AncestorType={x:Type uml:SequenceDiagram}}}"
+								   IsHandDrawnStyle="{Binding Path=IsHandDrawnStyle, RelativeSource={RelativeSource AncestorType={x:Type uml:SequenceDiagram}}}"
 								   Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type uml:SequenceDiagram}}}"
+								   Background="{Binding Path=Background, RelativeSource={RelativeSource AncestorType={x:Type uml:SequenceDiagram}}}"
 								   ActorForeground="{Binding Path=ActorForeground, RelativeSource={RelativeSource AncestorType={x:Type uml:SequenceDiagram}}}"
 								   ActorBackground="{Binding Path=ActorBackground, RelativeSource={RelativeSource AncestorType={x:Type uml:SequenceDiagram}}}"
 								   SignalForeground="{Binding Path=SignalForeground, RelativeSource={RelativeSource AncestorType={x:Type uml:SequenceDiagram}}}"
