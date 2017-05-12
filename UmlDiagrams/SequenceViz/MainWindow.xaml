@@ -46,10 +46,16 @@
 						Executed="SaveAs_Executed"/>
 		<CommandBinding Command="{x:Static ApplicationCommands.Copy}"
 						Executed="CopyToClipboard_Executed"/>
-		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.OfficeDark}"
-						Executed="SetStyleOfficeDark_Execute"/>
-		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.OfficeLight}"
-						Executed="SetStyleOfficeLight_Execute"/>
+		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle1}"
+						Executed="SetStyle1_Execute"/>
+		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle2}"
+						Executed="SetStyle2_Execute"/>
+		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle3}"
+						Executed="SetStyle3_Execute"/>
+		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle4}"
+						Executed="SetStyle4_Execute"/>
+		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle5}"
+						Executed="SetStyle5_Execute"/>
 	</Window.CommandBindings>
 	<Window.Title>
 		<Binding Converter="{StaticResource TitleConverter}" Path="ViewModel.Title" ElementName="m_sequenceDiagram"/>
@@ -60,6 +66,10 @@
 				<Button ToolTipService.ToolTip="New Sequence Diagram"
 						Command="{x:Static ApplicationCommands.New}">
 					<Image Source="Images/NewFile.png" Width="24"/>
+				</Button>
+				<Button ToolTipService.ToolTip="Open File"
+						Command="{x:Static ApplicationCommands.Open}">
+					<Image Source="Images/OpenFile.png" Width="24"/>
 				</Button>
 				<Button ToolTipService.ToolTip="Save"
 						Command="{x:Static ApplicationCommands.Save}">
@@ -80,13 +90,25 @@
 				</ToggleButton>
 			</ToolBar>
 			<ToolBar>
-				<Button ToolTipService.ToolTip="Office Dark Style"
-						Command="{x:Static local:SequenceDiagramStylesCommands.OfficeDark}">
-					<Image Source="Images/StyleOfficeDark.png" Width="24"/>
+				<Button ToolTipService.ToolTip="Custom Style #1"
+						Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle1}">
+					<Image Source="Images/CustomStyle1.png" Width="24"/>
 				</Button>
-				<Button ToolTipService.ToolTip="Office Light Style"
-						Command="{x:Static local:SequenceDiagramStylesCommands.OfficeLight}">
-					<Image Source="Images/StyleOfficeLight.png" Width="24"/>
+				<Button ToolTipService.ToolTip="Custom Style #2"
+						Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle2}">
+					<Image Source="Images/CustomStyle2.png" Width="24"/>
+				</Button>
+				<Button ToolTipService.ToolTip="Custom Style #3"
+						Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle3}">
+					<Image Source="Images/CustomStyle3.png" Width="24"/>
+				</Button>
+				<Button ToolTipService.ToolTip="Custom Style #4"
+						Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle4}">
+					<Image Source="Images/CustomStyle4.png" Width="24"/>
+				</Button>
+				<Button ToolTipService.ToolTip="Custom Style #5"
+						Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle5}">
+					<Image Source="Images/CustomStyle5.png" Width="24"/>
 				</Button>
 			</ToolBar>
 		</ToolBarTray>
@@ -123,12 +145,21 @@
 						  VerticalAlignment="Stretch"
 						  ShowsPreview="True"
 						  Width="5"/>
-			<ScrollViewer Grid.Column="2"
+			<ScrollViewer x:Name="m_scrollViewer"
+						  Grid.Column="2"
 						  CanContentScroll="True"
-						  Foreground="#FFA8A8A8"
-						  Background="#FF272822"
-						  FontFamily="Calibri"
 						  FontSize="16">
+				<ScrollViewer.Style>
+					<Style TargetType="{x:Type ScrollViewer}">
+						<Setter Property="FontFamily" Value="Calibri"/>
+						<Style.Triggers>
+							<DataTrigger Binding="{Binding IsHandDrawnStyle, ElementName=m_sequenceDiagram}"
+										 Value="True">
+								<Setter Property="FontFamily" Value="Comic Sans MS"/>
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</ScrollViewer.Style>
 				<ScrollViewer.DataContext>
 					<Binding Path="SequenceText"
 							 Converter="{StaticResource StringToSequenceDiagramConverter}"
@@ -146,12 +177,7 @@
 							   Visibility="{Binding Title, Converter={StaticResource StringToVisibilityConverter}}"/>
 					<uml:SequenceDiagram x:Name="m_sequenceDiagram"
 										 Grid.Row="1"
-										 ViewModel="{Binding}"
-										 ActorBackground="{StaticResource OfficeOrange}"
-										 ActorForeground="{StaticResource OfficeBlack}"
-										 NoteBackground="{StaticResource OfficeBlue}"
-										 NoteForeground="{StaticResource OfficeBlack}"
-										 SignalForeground="White"/>
+										 ViewModel="{Binding}"/>
 				</Grid>
 			</ScrollViewer>
 		</Grid>

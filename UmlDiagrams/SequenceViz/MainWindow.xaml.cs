@@ -12,24 +12,101 @@ namespace SequenceViz
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		private readonly Brush m_officeOrange;
+		private readonly Brush m_officeBlue;
+		private readonly Brush m_officeGreen;
+		private readonly Brush m_officeGray;
+		private readonly Brush m_officeBlack;
+
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			// Extract brush resoureces
+			m_officeOrange = (Brush)Resources["OfficeOrange"];
+			m_officeBlue = (Brush)Resources["OfficeBlue"];
+			m_officeGreen = (Brush)Resources["OfficeGreen"];
+			m_officeGray = (Brush)Resources["OfficeGray"];
+			m_officeBlack = (Brush)Resources["OfficeBlack"];
 		}
 
-		private void SetStyleOfficeDark_Execute(object sender,ExecutedRoutedEventArgs e)
+		private void SetStyle1_Execute(object sender, ExecutedRoutedEventArgs e)
 		{
-			// Extract brush resources
-			var officeOrange = (Brush)Resources["OfficeOrange"];
-			var officeBlue = (Brush)Resources["OfficeBlue"];
-			var officeGreen = (Brush)Resources["OfficeGreen"];
-			var officeGray = (Brush)Resources["OfficeGray"];
-			var officeBlack = (Brush)Resources["OfficeBlack"];
+			// Update style
+			var fg = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFA8A8A8"));
+			var bg = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF272822"));
+			m_scrollViewer.Foreground = fg;
+			m_scrollViewer.Background = bg;
+
+			m_sequenceDiagram.ActorBackground = m_officeGreen;
+			m_sequenceDiagram.ActorForeground = Brushes.White;
+			m_sequenceDiagram.ActorBorder = m_officeBlack;
+			m_sequenceDiagram.NoteBackground = m_officeBlue;
+			m_sequenceDiagram.NoteForeground = Brushes.White;
+			m_sequenceDiagram.NoteBorder = m_officeBlack;
+			m_sequenceDiagram.SignalForeground = fg;
 		}
 
-		private void SetStyleOfficeLight_Execute(object sender, ExecutedRoutedEventArgs e)
+		private void SetStyle2_Execute(object sender, ExecutedRoutedEventArgs e)
 		{
+			// Update style
+			var fg = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFA8A8A8"));
+			var bg = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF272822"));
+			m_scrollViewer.Foreground = fg;
+			m_scrollViewer.Background = bg;
 
+			m_sequenceDiagram.ActorBackground = m_officeOrange;
+			m_sequenceDiagram.ActorForeground = Brushes.White;
+			m_sequenceDiagram.ActorBorder = m_officeBlack;
+			m_sequenceDiagram.NoteBackground = m_officeBlue;
+			m_sequenceDiagram.NoteForeground = Brushes.White;
+			m_sequenceDiagram.NoteBorder = m_officeBlack;
+			m_sequenceDiagram.SignalForeground = fg;
+		}
+
+		private void SetStyle3_Execute(object sender, ExecutedRoutedEventArgs e)
+		{
+			// Update style
+			m_scrollViewer.Foreground = Brushes.Black;
+			m_scrollViewer.Background = Brushes.White;
+
+			m_sequenceDiagram.ActorBackground = m_officeOrange;
+			m_sequenceDiagram.ActorForeground = Brushes.White;
+			m_sequenceDiagram.ActorBorder = m_officeBlack;
+			m_sequenceDiagram.NoteBackground = m_officeBlue;
+			m_sequenceDiagram.NoteForeground = Brushes.White;
+			m_sequenceDiagram.NoteBorder = m_officeBlack;
+			m_sequenceDiagram.SignalForeground = Brushes.Black;
+		}
+
+		private void SetStyle4_Execute(object sender, ExecutedRoutedEventArgs e)
+		{
+			// Update style
+			m_scrollViewer.Foreground = Brushes.Black;
+			m_scrollViewer.Background = Brushes.White;
+
+			m_sequenceDiagram.ActorBackground = m_officeBlue;
+			m_sequenceDiagram.ActorForeground = Brushes.White;
+			m_sequenceDiagram.ActorBorder = m_officeBlack;
+			m_sequenceDiagram.NoteBackground = m_officeGreen;
+			m_sequenceDiagram.NoteForeground = Brushes.White;
+			m_sequenceDiagram.NoteBorder = m_officeBlack;
+			m_sequenceDiagram.SignalForeground = Brushes.Black;
+		}
+
+		private void SetStyle5_Execute(object sender, ExecutedRoutedEventArgs e)
+		{
+			// Update style
+			m_scrollViewer.Foreground = Brushes.Black;
+			m_scrollViewer.Background = Brushes.White;
+
+			m_sequenceDiagram.ActorBackground = Brushes.White;
+			m_sequenceDiagram.ActorForeground = Brushes.Black;
+			m_sequenceDiagram.ActorBorder = Brushes.Black;
+			m_sequenceDiagram.NoteBackground = Brushes.White;
+			m_sequenceDiagram.NoteForeground = Brushes.Black;
+			m_sequenceDiagram.NoteBorder = Brushes.Black;
+			m_sequenceDiagram.SignalForeground = Brushes.Black;
 		}
 
 		private void New_Executed(object sender, ExecutedRoutedEventArgs e)

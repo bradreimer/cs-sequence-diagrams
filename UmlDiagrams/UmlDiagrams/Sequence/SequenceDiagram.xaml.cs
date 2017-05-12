@@ -102,6 +102,11 @@ namespace UmlDiagrams
 				new FrameworkPropertyMetadata(false,
 					FrameworkPropertyMetadataOptions.AffectsRender));
 
+		public static readonly DependencyProperty ActorBorderProperty =
+			DependencyProperty.Register(nameof(ActorBorder), typeof(Brush), typeof(SequenceDiagram),
+				new FrameworkPropertyMetadata(Brushes.Black,
+					FrameworkPropertyMetadataOptions.AffectsRender));
+
 		public static readonly DependencyProperty ActorForegroundProperty =
 			DependencyProperty.Register(nameof(ActorForeground), typeof(Brush), typeof(SequenceDiagram),
 				new FrameworkPropertyMetadata(Brushes.Black,
@@ -114,6 +119,11 @@ namespace UmlDiagrams
 
 		public static readonly DependencyProperty SignalForegroundProperty =
 			DependencyProperty.Register(nameof(SignalForeground), typeof(Brush), typeof(SequenceDiagram),
+				new FrameworkPropertyMetadata(Brushes.Black,
+					FrameworkPropertyMetadataOptions.AffectsRender));
+
+		public static readonly DependencyProperty NoteBorderProperty =
+			DependencyProperty.Register(nameof(NoteBorderProperty), typeof(Brush), typeof(SequenceDiagram),
 				new FrameworkPropertyMetadata(Brushes.Black,
 					FrameworkPropertyMetadataOptions.AffectsRender));
 
@@ -139,6 +149,12 @@ namespace UmlDiagrams
 			set { SetValue(IsHandDrawnStyleProperty, value); }
 		}
 
+		public Brush ActorBorder
+		{
+			get { return (Brush)GetValue(ActorBorderProperty); }
+			set { SetValue(ActorBorderProperty, value); }
+		}
+
 		public Brush ActorForeground
 		{
 			get { return (Brush)GetValue(ActorForegroundProperty); }
@@ -155,6 +171,12 @@ namespace UmlDiagrams
 		{
 			get { return (Brush)GetValue(SignalForegroundProperty); }
 			set { SetValue(SignalForegroundProperty, value); }
+		}
+
+		public Brush NoteBorder
+		{
+			get { return (Brush)GetValue(NoteBorderProperty); }
+			set { SetValue(NoteBorderProperty, value); }
 		}
 
 		public Brush NoteForeground
@@ -435,7 +457,8 @@ namespace UmlDiagrams
 		private void DrawActor(IDrawingCanvas drawingCanvas, ActorVisualElement actor, double offsetY)
 		{
 			Rect box = new Rect(actor.OffsetX, offsetY, m_actorsWidth, m_actorsHeight);
-			DrawTextBox(drawingCanvas, box, actor.Text, ActorBackground, s_actorMargin, s_actorPadding, true);
+			actor.Text.SetForegroundBrush(ActorForeground);
+			DrawTextBox(drawingCanvas, box, actor.Text, ActorBackground, ActorBorder, s_actorMargin, s_actorPadding, true);
 		}
 
 		private void DrawSignals(IDrawingCanvas drawingCanvas)
@@ -471,6 +494,7 @@ namespace UmlDiagrams
 
 			// Draw the text so that its left edge is along the vertical segment of the self-signal
 			signal.Text.TextAlignment = TextAlignment.Left;
+			signal.Text.SetForegroundBrush(SignalForeground);
 			drawingCanvas.DrawText(x, y, signal.Text);
 
 			// Draw three lines, the last one with an arrow
@@ -502,6 +526,7 @@ namespace UmlDiagrams
 
 			// Draw the text in the middle of the signal
 			signal.Text.TextAlignment = TextAlignment.Center;
+			signal.Text.SetForegroundBrush(SignalForeground);
 			drawingCanvas.DrawText(x, y, signal.Text);
 
 			// Draw the line along the bottom of the signal
@@ -556,10 +581,11 @@ namespace UmlDiagrams
 
 			// Draw note
 			Rect box = new Rect(x, note.OffsetY, width, note.TextBB.Height);
-			DrawTextBox(drawingCanvas, box, note.Text, NoteBackground, s_noteMargin, s_notePadding, false);
+			note.Text.SetForegroundBrush(NoteForeground);
+			DrawTextBox(drawingCanvas, box, note.Text, NoteBackground, NoteBorder, s_noteMargin, s_notePadding, false);
 		}
 
-		private void DrawTextBox(IDrawingCanvas drawingCanvas, Rect box, FormattedText text, Brush brush, Thickness margin, Thickness padding, bool alignCenter)
+		private void DrawTextBox(IDrawingCanvas drawingCanvas, Rect box, FormattedText text, Brush backgroundBrush, Brush borderBrush, Thickness margin, Thickness padding, bool alignCenter)
 		{
 			var x = box.X + margin.Left;
 			var y = box.Y + margin.Top;
@@ -568,7 +594,7 @@ namespace UmlDiagrams
 
 			// Draw inner box
 			Rect rect = new Rect(x, y, w, h);
-			drawingCanvas.DrawRectangle(brush, new Pen(Brushes.Transparent, 1), rect);
+			drawingCanvas.DrawRectangle(backgroundBrush, new Pen(borderBrush, 1), rect);
 
 			// Draw text (in the center)
 			if (alignCenter)

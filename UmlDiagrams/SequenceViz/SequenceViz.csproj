@@ -114,10 +114,10 @@
     <Resource Include="Images\Save.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\StyleOfficeDark.png" />
+    <Resource Include="Images\CustomStyle1.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\StyleOfficeLight.png" />
+    <Resource Include="Images\CustomStyle2.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -130,6 +130,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\NewFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\OpenFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CustomStyle3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CustomStyle5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CustomStyle4.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
