@@ -84,7 +84,7 @@ namespace UmlDiagrams
 		{
 			InitializeComponent();
 
-			m_arrange = new Lazy<Size?>(ArrangeVisualElements);
+			m_arrange = new Lazy<Size?>(MeasureAndArrangeVisualElements);
 		}
 
 		#endregion
@@ -200,22 +200,15 @@ namespace UmlDiagrams
 		{
 			Size size = base.MeasureOverride(constraint);
 
-			m_arrange = new Lazy<Size?>(ArrangeVisualElements);
+			m_arrange = new Lazy<Size?>(MeasureAndArrangeVisualElements);
 
 			return m_arrange.Value ?? size;
 		}
 
-		protected override Size ArrangeOverride(Size arrangeBounds)
-		{
-			Size size = base.ArrangeOverride(arrangeBounds);
-
-			return m_arrange.Value ?? size;
-		}
-
-		private Size? ArrangeVisualElements()
+		private Size? MeasureAndArrangeVisualElements()
 		{
 			// Early out if there sequence diagram view model available
-			var vm = DataContext as SequenceDiagramViewModel;
+			var vm = ViewModel;
 			if (vm == null)
 				return null;
 

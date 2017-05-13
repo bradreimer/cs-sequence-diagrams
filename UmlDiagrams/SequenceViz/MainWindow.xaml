@@ -3,8 +3,8 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:uml="clr-namespace:UmlDiagrams;assembly=UmlDiagrams"
 		xmlns:local="clr-namespace:SequenceViz"
+		xmlns:uml="clr-namespace:UmlDiagrams;assembly=UmlDiagrams"
 		mc:Ignorable="d"
 		FocusManager.FocusedElement="{Binding ElementName=m_inputTextBox}">
 	<Window.Resources>
@@ -36,6 +36,14 @@
 			<GradientStop Color="#FF929292" Offset="1"/>
 			<GradientStop Color="#FFA5A5A5" Offset="0.5"/>
 		</LinearGradientBrush>
+		<Style x:Key="DefaultSequenceStyle" TargetType="{x:Type uml:SequenceDiagram}">
+			<Setter Property="FontFamily" Value="Calibri"/>
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding IsHandDrawnStyle, ElementName=m_sequenceDiagram}" Value="True">
+					<Setter Property="FontFamily" Value="Comic Sans MS"/>
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
 	</Window.Resources>
 	<Window.CommandBindings>
 		<CommandBinding Command="{x:Static ApplicationCommands.New}"
@@ -151,36 +159,22 @@
 						  Grid.Column="2"
 						  CanContentScroll="True"
 						  FontSize="16">
-				<ScrollViewer.Style>
-					<Style TargetType="{x:Type ScrollViewer}">
-						<Setter Property="FontFamily" Value="Calibri"/>
-						<Style.Triggers>
-							<DataTrigger Binding="{Binding IsHandDrawnStyle, ElementName=m_sequenceDiagram}"
-										 Value="True">
-								<Setter Property="FontFamily" Value="Comic Sans MS"/>
-							</DataTrigger>
-						</Style.Triggers>
-					</Style>
-				</ScrollViewer.Style>
 				<ScrollViewer.DataContext>
 					<Binding Path="SequenceText"
 							 Converter="{StaticResource StringToSequenceDiagramConverter}"
 							 Mode="OneWay">
 					</Binding>
 				</ScrollViewer.DataContext>
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto"/>
-						<RowDefinition Height="*"/>
-					</Grid.RowDefinitions>
-					<TextBlock Grid.Row="0"
-							   Margin="10" Padding="5"
+				<DockPanel x:Name="m_sequenceDiagramContainer"
+						   LastChildFill="True" Margin="10">
+					<TextBlock DockPanel.Dock="Top"
+							   Padding="5"
 							   Text="{Binding Title}"
 							   Visibility="{Binding Title, Converter={StaticResource StringToVisibilityConverter}}"/>
 					<uml:SequenceDiagram x:Name="m_sequenceDiagram"
-										 Grid.Row="1"
+										 Style="{StaticResource DefaultSequenceStyle}"
 										 ViewModel="{Binding}"/>
-				</Grid>
+				</DockPanel>
 			</ScrollViewer>
 		</Grid>
 	</DockPanel>

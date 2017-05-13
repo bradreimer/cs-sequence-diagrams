@@ -1,10 +1,8 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using UmlDiagrams;
 
 namespace SequenceViz
 {
@@ -18,6 +16,20 @@ namespace SequenceViz
 		private readonly Brush m_officeGreen;
 		private readonly Brush m_officeGray;
 		private readonly Brush m_officeBlack;
+		private CustomStyle m_currentStyle;
+
+		private sealed class CustomStyle
+		{
+			public Brush Foreground;
+			public Brush Background;
+			public Brush ActorBackground;
+			public Brush ActorForeground;
+			public Brush ActorBorder;
+			public Brush NoteBackground;
+			public Brush NoteForeground;
+			public Brush NoteBorder;
+			public Brush SignalForeground;
+		}
 
 		public MainWindow()
 		{
@@ -29,85 +41,98 @@ namespace SequenceViz
 			m_officeGreen = (Brush)Resources["OfficeGreen"];
 			m_officeGray = (Brush)Resources["OfficeGray"];
 			m_officeBlack = (Brush)Resources["OfficeBlack"];
+
+			SetCustomStyle1();
 		}
 
-		private void SetStyle1_Execute(object sender, ExecutedRoutedEventArgs e)
+		private void SetStyle1_Execute(object sender, ExecutedRoutedEventArgs e) => SetCustomStyle1();
+		private void SetStyle2_Execute(object sender, ExecutedRoutedEventArgs e) => SetCustomStyle2();
+		private void SetStyle3_Execute(object sender, ExecutedRoutedEventArgs e) => SetCustomStyle3();
+		private void SetStyle4_Execute(object sender, ExecutedRoutedEventArgs e) => SetCustomStyle4();
+		private void SetStyle5_Execute(object sender, ExecutedRoutedEventArgs e) => SetCustomStyle5();
+
+		private void SetCustomStyle1()
 		{
-			// Update style
 			var fg = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFA8A8A8"));
 			var bg = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF272822"));
-			Foreground = fg;
-			Background = bg;
-
-			m_sequenceDiagram.ActorBackground = m_officeGreen;
-			m_sequenceDiagram.ActorForeground = Brushes.White;
-			m_sequenceDiagram.ActorBorder = m_officeBlack;
-			m_sequenceDiagram.NoteBackground = m_officeBlue;
-			m_sequenceDiagram.NoteForeground = Brushes.White;
-			m_sequenceDiagram.NoteBorder = m_officeBlack;
-			m_sequenceDiagram.SignalForeground = fg;
+			SetCustomStyle(new CustomStyle
+			{
+				Foreground = fg,
+				Background = bg,
+				ActorBackground = m_officeGreen,
+				ActorForeground = Brushes.White,
+				ActorBorder = m_officeBlack,
+				NoteBackground = m_officeBlue,
+				NoteForeground = Brushes.White,
+				NoteBorder = m_officeBlack,
+				SignalForeground = fg,
+			});
 		}
 
-		private void SetStyle2_Execute(object sender, ExecutedRoutedEventArgs e)
+		private void SetCustomStyle2()
 		{
-			// Update style
 			var fg = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFA8A8A8"));
 			var bg = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF272822"));
-			Foreground = fg;
-			Background = bg;
-
-			m_sequenceDiagram.ActorBackground = m_officeOrange;
-			m_sequenceDiagram.ActorForeground = Brushes.White;
-			m_sequenceDiagram.ActorBorder = m_officeBlack;
-			m_sequenceDiagram.NoteBackground = m_officeBlue;
-			m_sequenceDiagram.NoteForeground = Brushes.White;
-			m_sequenceDiagram.NoteBorder = m_officeBlack;
-			m_sequenceDiagram.SignalForeground = fg;
+			SetCustomStyle(new CustomStyle
+			{
+				Foreground = fg,
+				Background = bg,
+				ActorBackground = m_officeOrange,
+				ActorForeground = Brushes.White,
+				ActorBorder = m_officeBlack,
+				NoteBackground = m_officeBlue,
+				NoteForeground = Brushes.White,
+				NoteBorder = m_officeBlack,
+				SignalForeground = fg,
+			});
 		}
 
-		private void SetStyle3_Execute(object sender, ExecutedRoutedEventArgs e)
+		private void SetCustomStyle3()
 		{
-			// Update style
-			Foreground = Brushes.Black;
-			Background = Brushes.White;
-
-			m_sequenceDiagram.ActorBackground = m_officeOrange;
-			m_sequenceDiagram.ActorForeground = Brushes.White;
-			m_sequenceDiagram.ActorBorder = m_officeBlack;
-			m_sequenceDiagram.NoteBackground = m_officeBlue;
-			m_sequenceDiagram.NoteForeground = Brushes.White;
-			m_sequenceDiagram.NoteBorder = m_officeBlack;
-			m_sequenceDiagram.SignalForeground = Brushes.Black;
+			SetCustomStyle(new CustomStyle
+			{
+				Foreground = Brushes.Black,
+				Background = Brushes.White,
+				ActorBackground = m_officeOrange,
+				ActorForeground = Brushes.White,
+				ActorBorder = m_officeBlack,
+				NoteBackground = m_officeBlue,
+				NoteForeground = Brushes.White,
+				NoteBorder = m_officeBlack,
+				SignalForeground = Brushes.Black,
+			});
 		}
 
-		private void SetStyle4_Execute(object sender, ExecutedRoutedEventArgs e)
+		private void SetCustomStyle4()
 		{
-			// Update style
-			Foreground = Brushes.Black;
-			Background = Brushes.White;
-
-			m_sequenceDiagram.ActorBackground = m_officeBlue;
-			m_sequenceDiagram.ActorForeground = Brushes.White;
-			m_sequenceDiagram.ActorBorder = m_officeBlack;
-			m_sequenceDiagram.NoteBackground = m_officeGreen;
-			m_sequenceDiagram.NoteForeground = Brushes.White;
-			m_sequenceDiagram.NoteBorder = m_officeBlack;
-			m_sequenceDiagram.SignalForeground = Brushes.Black;
+			SetCustomStyle(new CustomStyle
+			{
+				Foreground = Brushes.Black,
+				Background = Brushes.White,
+				ActorBackground = m_officeBlue,
+				ActorForeground = Brushes.White,
+				ActorBorder = m_officeBlack,
+				NoteBackground = m_officeGreen,
+				NoteForeground = Brushes.White,
+				NoteBorder = m_officeBlack,
+				SignalForeground = Brushes.Black,
+			});
 		}
 
-		private void SetStyle5_Execute(object sender, ExecutedRoutedEventArgs e)
+		private void SetCustomStyle5()
 		{
-			// Update style
-			Foreground = Brushes.Black;
-			Background = Brushes.White;
-
-			m_sequenceDiagram.ActorBackground = Brushes.White;
-			m_sequenceDiagram.ActorForeground = Brushes.Black;
-			m_sequenceDiagram.ActorBorder = Brushes.Black;
-			m_sequenceDiagram.NoteBackground = Brushes.White;
-			m_sequenceDiagram.NoteForeground = Brushes.Black;
-			m_sequenceDiagram.NoteBorder = Brushes.Black;
-			m_sequenceDiagram.SignalForeground = Brushes.Black;
+			SetCustomStyle(new CustomStyle
+			{
+				Foreground = Brushes.Black,
+				Background = Brushes.White,
+				ActorBackground = Brushes.White,
+				ActorForeground = Brushes.Black,
+				ActorBorder = Brushes.Black,
+				NoteBackground = Brushes.White,
+				NoteForeground = Brushes.Black,
+				NoteBorder = Brushes.Black,
+				SignalForeground = Brushes.Black,
+			});
 		}
 
 		private void New_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -127,20 +152,23 @@ namespace SequenceViz
 
 		private void CopyToClipboard_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			var seq = m_sequenceDiagram;
+			// Clone this sequence diagram
+			SequenceDiagram seq = m_sequenceDiagram;
 
-			var rect = new Rect(seq.DesiredSize);
-			seq.Measure(rect.Size);
+			// Measure and re-arrange
+			Size size = new Size(double.PositiveInfinity, double.PositiveInfinity);
+			seq.Measure(size);
+
+			Rect rect = new Rect(seq.DesiredSize);
 			seq.Arrange(rect);
 
-			Size renderSize = seq.RenderSize;
-
+			// Render the sequence to a bitmap
 			var drawingVisual = new DrawingVisual();
 			var drawingContext = drawingVisual.RenderOpen();
-			drawingContext.DrawRectangle(Background, null, new Rect(renderSize));
+			drawingContext.DrawRectangle(Background, null, rect);
 			drawingContext.Close();
 
-			int width = (int)renderSize.Width, height = (int)renderSize.Height;
+			int width = (int)rect.Width, height = (int)rect.Height;
 			RenderTargetBitmap bmp = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
 
 			bmp.Render(drawingVisual);
@@ -148,6 +176,24 @@ namespace SequenceViz
 
 			// Copy to clipboard
 			Clipboard.SetImage(bmp);
+
+			// Restore the previous layout by re-arranging its container
+			m_sequenceDiagramContainer.InvalidateArrange();
+		}
+
+		private void SetCustomStyle(CustomStyle currentStyle)
+		{
+			m_currentStyle = currentStyle;
+			Foreground = currentStyle.Foreground;
+			Background = currentStyle.Background;
+
+			m_sequenceDiagram.ActorBackground = currentStyle.ActorBackground;
+			m_sequenceDiagram.ActorForeground = currentStyle.ActorForeground;
+			m_sequenceDiagram.ActorBorder = currentStyle.ActorBorder;
+			m_sequenceDiagram.NoteBackground = currentStyle.NoteBackground;
+			m_sequenceDiagram.NoteForeground = currentStyle.NoteForeground;
+			m_sequenceDiagram.NoteBorder = currentStyle.NoteBorder;
+			m_sequenceDiagram.SignalForeground = currentStyle.SignalForeground;
 		}
 	}
 }
