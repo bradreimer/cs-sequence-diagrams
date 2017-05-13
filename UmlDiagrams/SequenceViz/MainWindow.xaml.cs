@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace SequenceViz
 {
@@ -35,8 +36,8 @@ namespace SequenceViz
 			// Update style
 			var fg = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFA8A8A8"));
 			var bg = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF272822"));
-			m_scrollViewer.Foreground = fg;
-			m_scrollViewer.Background = bg;
+			Foreground = fg;
+			Background = bg;
 
 			m_sequenceDiagram.ActorBackground = m_officeGreen;
 			m_sequenceDiagram.ActorForeground = Brushes.White;
@@ -52,8 +53,8 @@ namespace SequenceViz
 			// Update style
 			var fg = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFA8A8A8"));
 			var bg = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF272822"));
-			m_scrollViewer.Foreground = fg;
-			m_scrollViewer.Background = bg;
+			Foreground = fg;
+			Background = bg;
 
 			m_sequenceDiagram.ActorBackground = m_officeOrange;
 			m_sequenceDiagram.ActorForeground = Brushes.White;
@@ -67,8 +68,8 @@ namespace SequenceViz
 		private void SetStyle3_Execute(object sender, ExecutedRoutedEventArgs e)
 		{
 			// Update style
-			m_scrollViewer.Foreground = Brushes.Black;
-			m_scrollViewer.Background = Brushes.White;
+			Foreground = Brushes.Black;
+			Background = Brushes.White;
 
 			m_sequenceDiagram.ActorBackground = m_officeOrange;
 			m_sequenceDiagram.ActorForeground = Brushes.White;
@@ -82,8 +83,8 @@ namespace SequenceViz
 		private void SetStyle4_Execute(object sender, ExecutedRoutedEventArgs e)
 		{
 			// Update style
-			m_scrollViewer.Foreground = Brushes.Black;
-			m_scrollViewer.Background = Brushes.White;
+			Foreground = Brushes.Black;
+			Background = Brushes.White;
 
 			m_sequenceDiagram.ActorBackground = m_officeBlue;
 			m_sequenceDiagram.ActorForeground = Brushes.White;
@@ -97,8 +98,8 @@ namespace SequenceViz
 		private void SetStyle5_Execute(object sender, ExecutedRoutedEventArgs e)
 		{
 			// Update style
-			m_scrollViewer.Foreground = Brushes.Black;
-			m_scrollViewer.Background = Brushes.White;
+			Foreground = Brushes.Black;
+			Background = Brushes.White;
 
 			m_sequenceDiagram.ActorBackground = Brushes.White;
 			m_sequenceDiagram.ActorForeground = Brushes.Black;
@@ -126,25 +127,27 @@ namespace SequenceViz
 
 		private void CopyToClipboard_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			// Prepare a render target using the render size of our sequence
-			int width = (int)Math.Ceiling(m_sequenceDiagram.RenderSize.Width);
-			int height = (int)Math.Ceiling(m_sequenceDiagram.RenderSize.Height);
-			double dpi = 96;
+			var seq = m_sequenceDiagram;
 
-			var rtb = new RenderTargetBitmap(width, height, dpi, dpi, PixelFormats.Pbgra32);
+			var rect = new Rect(seq.DesiredSize);
+			seq.Measure(rect.Size);
+			seq.Arrange(rect);
 
-			// Draw the sequence diagram onto our render target
-			var brush = new VisualBrush(m_sequenceDiagram);
-			var visual = new DrawingVisual();
+			Size renderSize = seq.RenderSize;
 
-			var drawingContext = visual.RenderOpen();
-			drawingContext.DrawRectangle(brush, null, new Rect(new Point(0, 0), new Point(width, height)));
+			var drawingVisual = new DrawingVisual();
+			var drawingContext = drawingVisual.RenderOpen();
+			drawingContext.DrawRectangle(Background, null, new Rect(renderSize));
 			drawingContext.Close();
 
-			rtb.Render(visual);
+			int width = (int)renderSize.Width, height = (int)renderSize.Height;
+			RenderTargetBitmap bmp = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
+
+			bmp.Render(drawingVisual);
+			bmp.Render(seq);
 
 			// Copy to clipboard
-			Clipboard.SetImage(rtb);
+			Clipboard.SetImage(bmp);
 		}
 	}
 }

@@ -21,6 +21,7 @@ namespace UmlDiagrams
 			public Rect TextBB;
 			public double?[] Distances;
 			public double OffsetX;
+			public double PaddingRight;
 		}
 
 		private abstract class AnnotationVisualElement
@@ -56,8 +57,6 @@ namespace UmlDiagrams
 		private static readonly Thickness s_titlePadding = new Thickness(5); // Padding inside a title
 		private static readonly Thickness s_noteOverlap = new Thickness(10); // Overlap when using a "note over A,B"
 		private const double s_selfSignalWidth = 20.0; // How far out to place a self-signal
-		private DrawingContext m_scaffold;
-		private readonly bool m_showScaffold = false;
 
 		private Typeface m_typeface;
 		private List<ActorVisualElement> m_actorVisualElements;
@@ -386,12 +385,12 @@ namespace UmlDiagrams
 					}
 				}
 
-				actorsX = actor.OffsetX + m_actorsWidth;
+				actorsX = actor.OffsetX + m_actorsWidth + actor.PaddingRight;
 			}
 
 			// Determine total size
 			Size size = new Size();
-			size.Width = Math.Max(actorsX, size.Width) + Margin.Left + Margin.Right;
+			size.Width = actorsX + Margin.Left + Margin.Right;
 			size.Height = Margin.Top + Margin.Bottom + m_annotationsBottom + m_actorsHeight;
 			return size;
 		}
@@ -399,9 +398,6 @@ namespace UmlDiagrams
 		protected override void OnRender(DrawingContext drawingContext)
 		{
 			base.OnRender(drawingContext);
-
-			if (m_showScaffold)
-				m_scaffold = drawingContext;
 
 			using (IDrawingCanvas drawingCanvas = CreateDrawingCanvas(drawingContext))
 			{
@@ -441,16 +437,6 @@ namespace UmlDiagrams
 
 				// Bottom box
 				DrawActor(drawingCanvas, actor, m_annotationsBottom);
-			}
-
-			// Scaffold lines
-			if (m_scaffold != null)
-			{
-				m_scaffold.DrawLine(new Pen(Brushes.Purple, 1), new Point(0, s_actorMargin.Top), new Point(200, s_actorMargin.Top));
-				m_scaffold.DrawLine(new Pen(Brushes.MediumPurple, 1), new Point(0, m_actorsHeight - s_actorMargin.Bottom), new Point(200, m_actorsHeight - s_actorMargin.Bottom));
-
-				m_scaffold.DrawLine(new Pen(Brushes.Purple, 1), new Point(0, m_actorsHeight + m_annotationsBottom + s_actorMargin.Top), new Point(200, m_actorsHeight + m_annotationsBottom + s_actorMargin.Top));
-				m_scaffold.DrawLine(new Pen(Brushes.MediumPurple, 1), new Point(0, 2 * m_actorsHeight + m_annotationsBottom - s_actorMargin.Bottom), new Point(200, 2 * m_actorsHeight + m_annotationsBottom - s_actorMargin.Bottom));
 			}
 		}
 
@@ -511,18 +497,6 @@ namespace UmlDiagrams
 			// Mid-point between actors
 			double x = (bX + aX) / 2;
 			double y = signal.OffsetY + s_signalMargin.Top + s_signalPadding.Top;
-
-			// Scaffold lines
-			if (m_scaffold != null)
-			{
-				m_scaffold.DrawLine(new Pen(Brushes.Red, 1), new Point(0, signal.OffsetY), new Point(x, signal.OffsetY));
-				m_scaffold.DrawLine(new Pen(Brushes.Green, 1), new Point(0, signal.OffsetY + s_signalMargin.Top), new Point(x, signal.OffsetY + s_signalMargin.Top));
-				m_scaffold.DrawLine(new Pen(Brushes.LightGray, 1), new Point(0, y), new Point(x, y));
-				double y2 = signal.OffsetY + signal.TextBB.Height - s_signalMargin.Bottom - s_signalPadding.Bottom;
-				m_scaffold.DrawLine(new Pen(Brushes.LightGray, 1), new Point(10, y2), new Point(x, y2));
-				m_scaffold.DrawLine(new Pen(Brushes.Green, 1), new Point(10, y2 + s_signalPadding.Bottom), new Point(x, y2 + s_signalPadding.Bottom));
-				m_scaffold.DrawLine(new Pen(Brushes.Red, 1), new Point(10, y2 + s_signalPadding.Bottom + s_signalMargin.Bottom), new Point(x, y2 + s_signalPadding.Bottom + s_signalMargin.Bottom));
-			}
 
 			// Draw the text in the middle of the signal
 			signal.Text.TextAlignment = TextAlignment.Center;
@@ -636,12 +610,13 @@ namespace UmlDiagrams
 			{
 				// Ensure b has left margin
 				var actorB = actors[b];
-				actorB.OffsetX = Math.Max(d - actorB.TextBB.Width / 2, actorB.OffsetX);
+				actorB.OffsetX = Math.Max(d - m_actorsWidth / 2, actorB.OffsetX);
 			}
 			else if (b >= actors.Count)
 			{
 				// Ensure a has right margin
 				var actorA = actors[a];
+				actorA.PaddingRight = Math.Max(d - m_actorsWidth / 2, actorA.PaddingRight);
 			}
 			else
 			{

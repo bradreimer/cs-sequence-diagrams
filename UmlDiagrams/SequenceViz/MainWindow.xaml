@@ -46,6 +46,8 @@
 						Executed="SaveAs_Executed"/>
 		<CommandBinding Command="{x:Static ApplicationCommands.Copy}"
 						Executed="CopyToClipboard_Executed"/>
+		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.CopyToClipboard}"
+						Executed="CopyToClipboard_Executed"/>
 		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle1}"
 						Executed="SetStyle1_Execute"/>
 		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle2}"
@@ -81,7 +83,7 @@
 				</Button>
 				<Separator/>
 				<Button ToolTipService.ToolTip="Copy To Clipboard"
-						Command="{x:Static ApplicationCommands.Copy}">
+						Command="{x:Static local:SequenceDiagramStylesCommands.CopyToClipboard}">
 					<Image Source="Images/CopyToClipboard.png" Width="24"/>
 				</Button>
 				<ToggleButton ToolTipService.ToolTip="Toggle Drawing Style"

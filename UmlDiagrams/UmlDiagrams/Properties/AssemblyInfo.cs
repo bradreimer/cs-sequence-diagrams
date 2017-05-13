@@ -11,9 +11,9 @@ using System.Windows;
 [assembly: AssemblyTitle("UmlDiagrams")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("bradreimer.com")]
 [assembly: AssemblyProduct("UmlDiagrams")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright ©  2017 Brad Reimer")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
