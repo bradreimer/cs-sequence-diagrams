@@ -121,11 +121,6 @@ namespace UmlDiagrams
 				new FrameworkPropertyMetadata(Brushes.Black,
 					FrameworkPropertyMetadataOptions.AffectsRender));
 
-		public static readonly DependencyProperty NoteBorderProperty =
-			DependencyProperty.Register(nameof(NoteBorderProperty), typeof(Brush), typeof(SequenceDiagram),
-				new FrameworkPropertyMetadata(Brushes.Black,
-					FrameworkPropertyMetadataOptions.AffectsRender));
-
 		public static readonly DependencyProperty NoteForegroundProperty =
 			DependencyProperty.Register(nameof(NoteForeground), typeof(Brush), typeof(SequenceDiagram),
 				new FrameworkPropertyMetadata(Brushes.Black,
@@ -134,6 +129,11 @@ namespace UmlDiagrams
 		public static readonly DependencyProperty NoteBackgroundProperty =
 			DependencyProperty.Register(nameof(NoteBackground), typeof(Brush), typeof(SequenceDiagram),
 				new FrameworkPropertyMetadata(Brushes.White,
+					FrameworkPropertyMetadataOptions.AffectsRender));
+
+		public static readonly DependencyProperty NoteBorderProperty =
+			DependencyProperty.Register(nameof(NoteBorder), typeof(Brush), typeof(SequenceDiagram),
+				new FrameworkPropertyMetadata(Brushes.Black,
 					FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public SequenceDiagramViewModel ViewModel
@@ -166,18 +166,6 @@ namespace UmlDiagrams
 			set { SetValue(ActorBackgroundProperty, value); }
 		}
 
-		public Brush SignalForeground
-		{
-			get { return (Brush)GetValue(SignalForegroundProperty); }
-			set { SetValue(SignalForegroundProperty, value); }
-		}
-
-		public Brush NoteBorder
-		{
-			get { return (Brush)GetValue(NoteBorderProperty); }
-			set { SetValue(NoteBorderProperty, value); }
-		}
-
 		public Brush NoteForeground
 		{
 			get { return (Brush)GetValue(NoteForegroundProperty); }
@@ -188,6 +176,18 @@ namespace UmlDiagrams
 		{
 			get { return (Brush)GetValue(NoteBackgroundProperty); }
 			set { SetValue(NoteBackgroundProperty, value); }
+		}
+
+		public Brush NoteBorder
+		{
+			get { return (Brush)GetValue(NoteBorderProperty); }
+			set { SetValue(NoteBorderProperty, value); }
+		}
+
+		public Brush SignalForeground
+		{
+			get { return (Brush)GetValue(SignalForegroundProperty); }
+			set { SetValue(SignalForegroundProperty, value); }
 		}
 
 		#endregion

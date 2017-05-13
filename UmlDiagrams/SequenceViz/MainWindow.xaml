@@ -6,11 +6,28 @@
 		xmlns:local="clr-namespace:SequenceViz"
 		xmlns:uml="clr-namespace:UmlDiagrams;assembly=UmlDiagrams"
 		mc:Ignorable="d"
+		x:Name="m_mainWindow"
 		FocusManager.FocusedElement="{Binding ElementName=m_inputTextBox}">
+	<Window.CommandBindings>
+		<CommandBinding Command="{x:Static ApplicationCommands.New}"
+						Executed="New_Executed"/>
+		<CommandBinding Command="{x:Static ApplicationCommands.Save}"
+						Executed="Save_Executed"/>
+		<CommandBinding Command="{x:Static ApplicationCommands.SaveAs}"
+						Executed="SaveAs_Executed"/>
+		<CommandBinding Command="{x:Static ApplicationCommands.Copy}"
+						Executed="CopyToClipboard_Executed"/>
+		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.CopyToClipboard}"
+						Executed="CopyToClipboard_Executed"/>
+		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle}"
+						Executed="SetStyle_Execute"/>
+	</Window.CommandBindings>
 	<Window.Resources>
 		<uml:StringToSequenceDiagramConverter x:Key="StringToSequenceDiagramConverter"/>
 		<local:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
 		<local:TitleConverter x:Key="TitleConverter" />
+		<SolidColorBrush x:Key="SequenceDarkColor" Color="#FFA8A8A8"/>
+		<SolidColorBrush x:Key="SequenceLightColor" Color="#FF272822"/>
 		<LinearGradientBrush x:Key="OfficeBlue" EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
 			<GradientStop Color="#FF71A6DB"/>
 			<GradientStop Color="#FF559BDB" Offset="0.5"/>
@@ -38,35 +55,76 @@
 		</LinearGradientBrush>
 		<Style x:Key="DefaultSequenceStyle" TargetType="{x:Type uml:SequenceDiagram}">
 			<Setter Property="FontFamily" Value="Calibri"/>
+			<Setter Property="ActorBackground" Value="{StaticResource OfficeGreen}"/>
+			<Setter Property="ActorForeground" Value="White"/>
+			<Setter Property="ActorBorder" Value="{StaticResource OfficeBlack}"/>
+			<Setter Property="NoteBackground" Value="{StaticResource OfficeBlue}"/>
+			<Setter Property="NoteForeground" Value="White"/>
+			<Setter Property="NoteBorder" Value="{StaticResource OfficeBlack}"/>
+			<Setter Property="SignalForeground" Value="{StaticResource SequenceDarkColor}"/>
 			<Style.Triggers>
 				<DataTrigger Binding="{Binding IsHandDrawnStyle, ElementName=m_sequenceDiagram}" Value="True">
 					<Setter Property="FontFamily" Value="Comic Sans MS"/>
 				</DataTrigger>
+				<DataTrigger Binding="{Binding DataContext.SequenceTheme, ElementName=m_mainWindow}" Value="{x:Static local:SequenceThemes.CustomTheme2}">
+					<Setter Property="ActorBackground" Value="{StaticResource OfficeOrange}"/>
+					<Setter Property="ActorForeground" Value="White"/>
+					<Setter Property="ActorBorder" Value="{StaticResource OfficeBlack}"/>
+					<Setter Property="NoteBackground" Value="{StaticResource OfficeBlue}"/>
+					<Setter Property="NoteForeground" Value="White"/>
+					<Setter Property="NoteBorder" Value="{StaticResource OfficeBlack}"/>
+					<Setter Property="SignalForeground" Value="{StaticResource SequenceDarkColor}"/>
+				</DataTrigger>
+				<DataTrigger Binding="{Binding DataContext.SequenceTheme, ElementName=m_mainWindow}" Value="{x:Static local:SequenceThemes.CustomTheme3}">
+					<Setter Property="ActorBackground" Value="{StaticResource OfficeOrange}"/>
+					<Setter Property="ActorForeground" Value="White"/>
+					<Setter Property="ActorBorder" Value="{StaticResource OfficeBlack}"/>
+					<Setter Property="NoteBackground" Value="{StaticResource OfficeBlue}"/>
+					<Setter Property="NoteForeground" Value="White"/>
+					<Setter Property="NoteBorder" Value="{StaticResource OfficeBlack}"/>
+					<Setter Property="SignalForeground" Value="Black"/>
+				</DataTrigger>
+				<DataTrigger Binding="{Binding DataContext.SequenceTheme, ElementName=m_mainWindow}" Value="{x:Static local:SequenceThemes.CustomTheme4}">
+					<Setter Property="ActorBackground" Value="{StaticResource OfficeBlue}"/>
+					<Setter Property="ActorForeground" Value="White"/>
+					<Setter Property="ActorBorder" Value="{StaticResource OfficeBlack}"/>
+					<Setter Property="NoteBackground" Value="{StaticResource OfficeGreen}"/>
+					<Setter Property="NoteForeground" Value="White"/>
+					<Setter Property="NoteBorder" Value="{StaticResource OfficeBlack}"/>
+					<Setter Property="SignalForeground" Value="Black"/>
+				</DataTrigger>
+				<DataTrigger Binding="{Binding DataContext.SequenceTheme, ElementName=m_mainWindow}" Value="{x:Static local:SequenceThemes.CustomTheme5}">
+					<Setter Property="ActorBackground" Value="White"/>
+					<Setter Property="ActorForeground" Value="Black"/>
+					<Setter Property="ActorBorder" Value="Black"/>
+					<Setter Property="NoteBackground" Value="White"/>
+					<Setter Property="NoteForeground" Value="White"/>
+					<Setter Property="NoteBorder" Value="Black"/>
+					<Setter Property="SignalForeground" Value="Black"/>
+				</DataTrigger>
 			</Style.Triggers>
 		</Style>
 	</Window.Resources>
-	<Window.CommandBindings>
-		<CommandBinding Command="{x:Static ApplicationCommands.New}"
-						Executed="New_Executed"/>
-		<CommandBinding Command="{x:Static ApplicationCommands.Save}"
-						Executed="Save_Executed"/>
-		<CommandBinding Command="{x:Static ApplicationCommands.SaveAs}"
-						Executed="SaveAs_Executed"/>
-		<CommandBinding Command="{x:Static ApplicationCommands.Copy}"
-						Executed="CopyToClipboard_Executed"/>
-		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.CopyToClipboard}"
-						Executed="CopyToClipboard_Executed"/>
-		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle1}"
-						Executed="SetStyle1_Execute"/>
-		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle2}"
-						Executed="SetStyle2_Execute"/>
-		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle3}"
-						Executed="SetStyle3_Execute"/>
-		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle4}"
-						Executed="SetStyle4_Execute"/>
-		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle5}"
-						Executed="SetStyle5_Execute"/>
-	</Window.CommandBindings>
+	<Window.Style>
+		<Style TargetType="{x:Type local:MainWindow}">
+			<Setter Property="Foreground" Value="{StaticResource SequenceDarkColor}"/>
+			<Setter Property="Background" Value="{StaticResource SequenceLightColor}"/>
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding SequenceTheme}" Value="{x:Static local:SequenceThemes.CustomTheme3}">
+					<Setter Property="Foreground" Value="Black"/>
+					<Setter Property="Background" Value="White"/>
+				</DataTrigger>
+				<DataTrigger Binding="{Binding SequenceTheme}" Value="{x:Static local:SequenceThemes.CustomTheme4}">
+					<Setter Property="Foreground" Value="Black"/>
+					<Setter Property="Background" Value="White"/>
+				</DataTrigger>
+				<DataTrigger Binding="{Binding SequenceTheme}" Value="{x:Static local:SequenceThemes.CustomTheme5}">
+					<Setter Property="Foreground" Value="Black"/>
+					<Setter Property="Background" Value="White"/>
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
+	</Window.Style>
 	<Window.Title>
 		<Binding Converter="{StaticResource TitleConverter}" Path="ViewModel.Title" ElementName="m_sequenceDiagram"/>
 	</Window.Title>
@@ -101,23 +159,28 @@
 			</ToolBar>
 			<ToolBar>
 				<Button ToolTipService.ToolTip="Custom Style #1"
-						Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle1}">
+						Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle}"
+						CommandParameter="{x:Static local:SequenceThemes.CustomTheme1}">
 					<Image Source="Images/CustomStyle1.png" Width="24"/>
 				</Button>
 				<Button ToolTipService.ToolTip="Custom Style #2"
-						Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle2}">
+						Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle}"
+						CommandParameter="{x:Static local:SequenceThemes.CustomTheme2}">
 					<Image Source="Images/CustomStyle2.png" Width="24"/>
 				</Button>
 				<Button ToolTipService.ToolTip="Custom Style #3"
-						Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle3}">
+						Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle}"
+						CommandParameter="{x:Static local:SequenceThemes.CustomTheme3}">
 					<Image Source="Images/CustomStyle3.png" Width="24"/>
 				</Button>
 				<Button ToolTipService.ToolTip="Custom Style #4"
-						Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle4}">
+						Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle}"
+						CommandParameter="{x:Static local:SequenceThemes.CustomTheme4}">
 					<Image Source="Images/CustomStyle4.png" Width="24"/>
 				</Button>
 				<Button ToolTipService.ToolTip="Custom Style #5"
-						Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle5}">
+						Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle}"
+						CommandParameter="{x:Static local:SequenceThemes.CustomTheme5}">
 					<Image Source="Images/CustomStyle5.png" Width="24"/>
 				</Button>
 			</ToolBar>

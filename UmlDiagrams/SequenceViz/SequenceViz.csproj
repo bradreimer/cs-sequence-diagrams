@@ -92,6 +92,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\TitleConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="SequenceThemes.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
