@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using static UmlDiagrams.SequenceParser;
-using System.Text;
 
 namespace UmlDiagrams
 {
