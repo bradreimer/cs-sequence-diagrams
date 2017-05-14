@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Input;
+using Microsoft.Win32;
 
 namespace SequenceViz
 {
@@ -7,16 +9,19 @@ namespace SequenceViz
 	{
 		#region Members
 
+		private readonly DialogService m_dialogService;
 		private readonly CommandBindingCollection m_commandBindings;
 		private SequenceThemes m_sequenceTheme;
 		private string m_sequenceText;
+		private string m_activeFileName;
 
 		#endregion
 
 		#region Constructor
 
-		public MainWindowViewModel()
+		public MainWindowViewModel(DialogService dialogService)
 		{
+			m_dialogService = dialogService;
 			m_commandBindings = new CommandBindingCollection();
 			InitializeCommandBindings();
 		}
@@ -27,6 +32,7 @@ namespace SequenceViz
 			m_commandBindings.Add(new CommandBinding(ApplicationCommands.Open, OpenExecuted));
 			m_commandBindings.Add(new CommandBinding(ApplicationCommands.Save, SaveExecuted));
 			m_commandBindings.Add(new CommandBinding(ApplicationCommands.SaveAs, SaveAsExecuted));
+			m_commandBindings.Add(new CommandBinding(SequenceDiagramStylesCommands.SetStyle, SetStyleExecuted));
 		}
 
 		#endregion
@@ -50,27 +56,87 @@ namespace SequenceViz
 			set { Set(ref m_sequenceText, value); }
 		}
 
+		public string ActiveFileName
+		{
+			get { return m_activeFileName; }
+			set { Set(ref m_activeFileName, value); }
+		}
+
 		#endregion
 
 		#region Commands
 
 		private void NewExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
+			SequenceText = string.Empty;
+			ActiveFileName = null;
 		}
 
 		private void OpenExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
-			throw new NotImplementedException();
+			var dlg = new OpenFileDialog
+			{
+				Title = "Open a Sequence Diagram",
+				DefaultExt = ".txt",
+				Filter = "Sequence Diagram|*.txt",
+			};
+
+			bool? result = dlg.ShowDialog();
+
+			if (result == true && !string.IsNullOrEmpty(dlg.FileName))
+			{
+				Open(dlg.FileName);
+			}
 		}
 
 		private void SaveExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
-			throw new NotImplementedException();
+			if (ActiveFileName == null)
+				SaveAsExecuted(sender, e);
+			else
+				Save(ActiveFileName);
 		}
 
 		private void SaveAsExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
-			throw new NotImplementedException();
+			var dlg = new SaveFileDialog
+			{
+				Title = "Save a Sequence Diagram",
+				FileName = ActiveFileName ?? "NewSequence.txt",
+				DefaultExt = ".txt",
+				Filter = "Sequence Diagram|*.txt",
+			};
+
+			bool? result = dlg.ShowDialog();
+
+			if (result == true && !string.IsNullOrEmpty(dlg.FileName))
+			{
+				Save(dlg.FileName);
+			}
+		}
+
+		private void SetStyleExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			SequenceTheme = (SequenceThemes)e.Parameter;
+		}
+
+		#endregion
+
+		#region Methods
+
+		private void Open(string fileName)
+		{
+			if (!File.Exists(fileName))
+				return; // error?
+
+			ActiveFileName = fileName;
+			SequenceText = File.ReadAllText(fileName);
+		}
+
+		private void Save(string fileName)
+		{
+			ActiveFileName = fileName;
+			File.WriteAllText(fileName, SequenceText);
 		}
 
 		#endregion

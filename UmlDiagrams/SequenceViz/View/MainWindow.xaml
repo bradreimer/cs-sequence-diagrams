@@ -7,20 +7,13 @@
 		xmlns:uml="clr-namespace:UmlDiagrams;assembly=UmlDiagrams"
 		mc:Ignorable="d"
 		x:Name="m_mainWindow"
-		FocusManager.FocusedElement="{Binding ElementName=m_inputTextBox}">
+		FocusManager.FocusedElement="{Binding ElementName=m_inputTextBox}"
+		local:AttachedProperties.RegisterCommandBindings="{Binding CommandBindings}">
 	<Window.CommandBindings>
-		<CommandBinding Command="{x:Static ApplicationCommands.New}"
-						Executed="New_Executed"/>
-		<CommandBinding Command="{x:Static ApplicationCommands.Save}"
-						Executed="Save_Executed"/>
-		<CommandBinding Command="{x:Static ApplicationCommands.SaveAs}"
-						Executed="SaveAs_Executed"/>
 		<CommandBinding Command="{x:Static ApplicationCommands.Copy}"
 						Executed="CopyToClipboard_Executed"/>
 		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.CopyToClipboard}"
 						Executed="CopyToClipboard_Executed"/>
-		<CommandBinding Command="{x:Static local:SequenceDiagramStylesCommands.SetStyle}"
-						Executed="SetStyle_Execute"/>
 	</Window.CommandBindings>
 	<Window.Resources>
 		<uml:StringToSequenceDiagramConverter x:Key="StringToSequenceDiagramConverter"/>

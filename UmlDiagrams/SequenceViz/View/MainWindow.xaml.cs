@@ -16,26 +16,6 @@ namespace SequenceViz
 			InitializeComponent();
 		}
 
-		private void SetStyle_Execute(object sender, ExecutedRoutedEventArgs e)
-		{
-			((MainWindowViewModel)DataContext).SequenceTheme = (SequenceThemes)e.Parameter;
-		}
-
-		private void New_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-
-		}
-
-		private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-
-		}
-
-		private void SaveAs_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-
-		}
-
 		private void CopyToClipboard_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			// Clone this sequence diagram
