@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
 
@@ -12,6 +13,7 @@ namespace SequenceViz
 		private SequenceThemes m_sequenceTheme;
 		private string m_sequenceText;
 		private string m_activeFileName;
+		private bool m_isDirty;
 
 		#endregion
 
@@ -50,7 +52,11 @@ namespace SequenceViz
 		public string SequenceText
 		{
 			get { return m_sequenceText; }
-			set { Set(ref m_sequenceText, value); }
+			set
+			{
+				if (Set(ref m_sequenceText, value))
+					IsDirty = true;
+			}
 		}
 
 		public string ActiveFileName
@@ -59,17 +65,80 @@ namespace SequenceViz
 			set { Set(ref m_activeFileName, value); }
 		}
 
+		public bool IsDirty
+		{
+			get { return m_isDirty; }
+			set { Set(ref m_isDirty, value); }
+		}
+
 		#endregion
 
 		#region Commands
 
 		private void NewExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
+			if (!ValidateCanEdit())
+				return;
+			NewUI();
+		}
+
+		private void OpenExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			if (!ValidateCanEdit())
+				return;
+			OpenUI();
+		}
+
+		private void SaveExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			SaveUI();
+		}
+
+		private void SaveAsExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			SaveAsUI();
+		}
+
+		private void SetStyleExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			SequenceTheme = (SequenceThemes)e.Parameter;
+		}
+
+		#endregion
+
+		#region Methods
+
+		private bool ValidateCanEdit()
+		{
+			bool canEdit = true;
+			if (IsDirty)
+			{
+				MessageBoxResult result = MessageBox.Show(
+					"Save changes to this sequence diagram?",
+					"Unsaved Changes Detected",
+					MessageBoxButton.YesNoCancel,
+					MessageBoxImage.Question);
+
+				switch (result)
+				{
+					case MessageBoxResult.Yes:
+						SaveUI();
+						break;
+					case MessageBoxResult.Cancel:
+						canEdit = false;
+						break;
+				}
+			}
+			return canEdit;
+		}
+
+		private void NewUI()
+		{
 			SequenceText = string.Empty;
 			ActiveFileName = null;
 		}
 
-		private void OpenExecuted(object sender, ExecutedRoutedEventArgs e)
+		private void OpenUI()
 		{
 			var dlg = new OpenFileDialog
 			{
@@ -86,15 +155,15 @@ namespace SequenceViz
 			}
 		}
 
-		private void SaveExecuted(object sender, ExecutedRoutedEventArgs e)
+		private void SaveUI()
 		{
 			if (ActiveFileName == null)
-				SaveAsExecuted(sender, e);
+				SaveAsUI();
 			else
 				Save(ActiveFileName);
 		}
 
-		private void SaveAsExecuted(object sender, ExecutedRoutedEventArgs e)
+		private void SaveAsUI()
 		{
 			var dlg = new SaveFileDialog
 			{
@@ -112,15 +181,6 @@ namespace SequenceViz
 			}
 		}
 
-		private void SetStyleExecuted(object sender, ExecutedRoutedEventArgs e)
-		{
-			SequenceTheme = (SequenceThemes)e.Parameter;
-		}
-
-		#endregion
-
-		#region Methods
-
 		private void Open(string fileName)
 		{
 			if (!File.Exists(fileName))
@@ -128,12 +188,14 @@ namespace SequenceViz
 
 			ActiveFileName = fileName;
 			SequenceText = File.ReadAllText(fileName);
+			IsDirty = false;
 		}
 
 		private void Save(string fileName)
 		{
 			ActiveFileName = fileName;
 			File.WriteAllText(fileName, SequenceText);
+			IsDirty = false;
 		}
 
 		#endregion
