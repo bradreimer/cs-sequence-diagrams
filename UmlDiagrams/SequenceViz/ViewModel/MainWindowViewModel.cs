@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Windows.Input;
 using Microsoft.Win32;
 
@@ -9,7 +8,6 @@ namespace SequenceViz
 	{
 		#region Members
 
-		private readonly DialogService m_dialogService;
 		private readonly CommandBindingCollection m_commandBindings;
 		private SequenceThemes m_sequenceTheme;
 		private string m_sequenceText;
@@ -19,9 +17,8 @@ namespace SequenceViz
 
 		#region Constructor
 
-		public MainWindowViewModel(DialogService dialogService)
+		public MainWindowViewModel()
 		{
-			m_dialogService = dialogService;
 			m_commandBindings = new CommandBindingCollection();
 			InitializeCommandBindings();
 		}
