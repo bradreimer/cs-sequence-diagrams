@@ -1,4 +1,4 @@
-# Snowflake
+# cs-sequence-diagrams
 Generates UML sequence diagrams from simple text.
 
 ## Example
