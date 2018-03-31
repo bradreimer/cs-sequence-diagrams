@@ -37,7 +37,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>breimer.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <DelaySign>false</DelaySign>
@@ -91,7 +92,6 @@
     <Antlr4 Include="Grammar\Sequence.g4">
       <CustomToolNamespace>UmlDiagrams</CustomToolNamespace>
     </Antlr4>
-    <None Include="breimer.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
